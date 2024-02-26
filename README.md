@@ -9,6 +9,40 @@ To write a python program to perform stop and wait protocol
 5. If your frames reach the server it will send ACK signal to client
 6. Stop the Program
 ## PROGRAM
+```
+import time
+import random
+
+def send_frame(frame):
+    print(f"Sending frame: {frame}")
+    time.sleep(1)  # Simulating transmission delay
+    return True  # Simulating successful transmission
+
+def receive_ack():
+    time.sleep(1)  # Simulating transmission delay
+    return random.choice([True, False])  # Simulating ACK loss with 50% probability
+
+def stop_and_wait(frame_size):
+    frames_sent = 0
+    while frames_sent < frame_size:
+        frame = f"Frame {frames_sent}"
+        ack_received = False
+        while not ack_received:
+            if send_frame(frame):
+                ack_received = receive_ack()
+                if ack_received:
+                    print("ACK received")
+                    frames_sent += 1
+                else:
+                    print("Timeout! Resending frame...")
+            else:
+                print("Transmission failed! Resending frame...")
+
+if __name__ == "__main__":
+    frame_size = int(input("Enter the number of frames to send: "))
+    stop_and_wait(frame_size)
+
+```
 ## OUTPUT
 ## RESULT
 Thus, python program to perform stop and wait protocol was successfully executed.
