@@ -44,5 +44,7 @@ if __name__ == "__main__":
 
 ```
 ## OUTPUT
+![image](https://github.com/arbasil05/2a_Stop_and_Wait_Protocol/assets/144218037/1c70f7c2-ced2-46f7-9ea8-ce8a443e05ae)
+
 ## RESULT
 Thus, python program to perform stop and wait protocol was successfully executed.
