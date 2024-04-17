@@ -9,42 +9,40 @@ To write a python program to perform stop and wait protocol
 5. If your frames reach the server it will send ACK signal to client
 6. Stop the Program
 ## PROGRAM
+### CLIENT: 
 ```
-import time
-import random
-
-def send_frame(frame):
-    print(f"Sending frame: {frame}")
-    time.sleep(1)  # Simulating transmission delay
-    return True  # Simulating successful transmission
-
-def receive_ack():
-    time.sleep(1)  # Simulating transmission delay
-    return random.choice([True, False])  # Simulating ACK loss with 50% probability
-
-def stop_and_wait(frame_size):
-    frames_sent = 0
-    while frames_sent < frame_size:
-        frame = f"Frame {frames_sent}"
-        ack_received = False
-        while not ack_received:
-            if send_frame(frame):
-                ack_received = receive_ack()
-                if ack_received:
-                    print("ACK received")
-                    frames_sent += 1
-                else:
-                    print("Timeout! Resending frame...")
-            else:
-                print("Transmission failed! Resending frame...")
-
-if __name__ == "__main__":
-    frame_size = int(input("Enter the number of frames to send: "))
-    stop_and_wait(frame_size)
-
+import socket
+s=socket.socket()
+s.bind(('localhost',8000))
+s.listen(5)
+c,addr=s.accept()
+while True:
+ i=input("Enter a data: ")
+ c.send(i.encode())
+ ack=c.recv(1024).decode()
+ if ack:
+     print(ack)
+     continue
+ else:
+     c.close()
+     break
+```
+### SERVER:
+```
+import socket
+s=socket.socket()
+s.connect(('localhost',8000))
+while True:
+ print(s.recv(1024).decode())
+ s.send("Acknowledgement Recived".encode())
 ```
 ## OUTPUT
-![image](https://github.com/arbasil05/2a_Stop_and_Wait_Protocol/assets/144218037/1c70f7c2-ced2-46f7-9ea8-ce8a443e05ae)
+### CLIENT:
+![image](https://github.com/arbasil05/2a_Stop_and_Wait_Protocol/assets/144218037/886dbd25-7da5-42a3-ab75-e2300af9b1e9)
+### SERVER:
+![image](https://github.com/arbasil05/2a_Stop_and_Wait_Protocol/assets/144218037/23ad0072-ca73-47b9-992d-583e142fd9be)
+
+
 
 ## RESULT
 Thus, python program to perform stop and wait protocol was successfully executed.
